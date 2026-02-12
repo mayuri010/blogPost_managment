@@ -3,19 +3,17 @@ import {
   Navigate,
   RouterProvider,
 } from "react-router-dom";
-// import Login from "./pages/Login";
-// import Register from "./pages/Register";
-// import Dashboard from "./Component/Dashboard";
-import Login from "./Pages/Login";
 import Register from "./Pages/Register";
-import Dashboard from "./Component/DashBoard";
+import Login from "./Pages/Login";
 import { ToastContainer } from "react-toastify";
+import { AuthGuard } from "./auth/AuthGuard";
+import Dashboard from "./Pages/DashBoard";
 const DefultRouter = () => {
   const data = JSON.parse(localStorage.getItem("blog_rdata"));
   if (data) {
-    <Navigate to="/login" replace />;
+  return  <Navigate to="/dashboard" replace />;
   } else {
-    <Navigate to="/register" replace />;
+   return <Navigate to="/login" replace />;
   }
 };
 function App() {
@@ -26,17 +24,30 @@ function App() {
     },
     {
       path: "/register",
-      element: <Register />,
+      element: (
+        <AuthGuard required={false}>
+          <Register />
+        </AuthGuard>
+      ),
     },
     {
       path: "/login",
-      element: <Login />,
+      element: (
+        <AuthGuard required={false}>
+          <Login />
+        </AuthGuard>
+      ),
     },
     {
       path: "/dashboard",
-      element: <Dashboard />,
+      element: (
+        <AuthGuard required={true}>
+          <Dashboard />
+        </AuthGuard>
+      ),
     },
   ]);
+
   return (
     <>
       <RouterProvider router={route} />
@@ -49,9 +60,9 @@ function App() {
         rtl={false}
         pauseOnFocusLoss
         draggable
-        pauseOnHover
+        pauseOnHoverr
         theme="light"
-      />
+      ></ToastContainer>
     </>
   );
 }

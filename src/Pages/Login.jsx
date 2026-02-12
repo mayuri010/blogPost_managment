@@ -9,6 +9,8 @@ function Login() {
     password: "",
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+
   const [error, setError] = useState({});
 
   const navigate = useNavigate();
@@ -34,10 +36,10 @@ function Login() {
         data.password === logData.password
       ) {
         localStorage.setItem("blog_ldata", JSON.stringify(logData));
-        toast.success("Login Successfull");
+        toast.success("Done");
         navigate("/dashboard");
       } else {
-        alert("Email And Password Not Match");
+        toast.error("Somthing Went Wrong");
       }
     }
   };
@@ -61,44 +63,70 @@ function Login() {
   };
 
   return (
-    <div className="register-container">
-      <h1>Welcome </h1>
-      <p>Join Us And Start Our Journey</p>
-
-      <form action="" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email Address</label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            value={logData.email}
-            placeholder="Enter Yoyr Email Address"
-            onChange={handleChange}
-          />
-          {error.email && <span className="error-msg">{error.email}</span>}
-        </div>
-
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            value={logData.password}
-            onChange={handleChange}
-          />
-          {error.password && (
-            <span className="error-msg">{error.password}</span>
-          )}
-        </div>
-
-        <button type="submit">Login</button>
-      </form>
-      <p>
-        Don't have Account??<Link to="/register">Register</Link>
-      </p>
-    </div>
+    <div className="register">
+       <div className="register-card">
+         <h1 className="register-title">Create Account</h1>
+         <p className="register-subtitle">Join Us And Start Our Journey</p>
+   
+         <form className="register-form" onSubmit={handleSubmit}>
+   
+           
+   
+           {/* Email */}
+           <div className="form-group">
+             <label htmlFor="email" className="form-label">Email Address</label>
+             <input
+               type="email"
+               name="email"
+               id="email"
+               className="form-input"
+               placeholder="Enter Your Email Address"
+               onChange={handleChange}
+             />
+             {error.email && <span className="form-error">{error.email}</span>}
+           </div>
+   
+           
+   
+           {/* Password */}
+           <div className="form-group">
+             <label htmlFor="password" className="form-label">Password</label>
+   
+             <div className="password-wrapper">
+               <input
+                 type={showPassword ? "text" : "password"}
+                 name="password"
+                 id="password"
+                 className="form-input password-input"
+                 placeholder="******"
+                 onChange={handleChange}
+               />
+   
+               <span
+                 className="password-toggle"
+                 onClick={() => setShowPassword(!showPassword)}
+               >
+                 {showPassword ? "🙈" : "👁️"}
+               </span>
+             </div>
+   
+             {error.password && (
+               <span className="form-error">{error.password}</span>
+             )}
+           </div>
+   
+           
+   
+           <button type="submit" className="register-btn">
+             Login
+           </button>
+         </form>
+   
+         <p className="register-footer">
+           Don't have an Account? <Link to="/register">Register</Link>
+         </p>
+       </div>
+     </div>
   );
 }
 

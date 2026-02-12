@@ -1,23 +1,11 @@
-/* ===== Global ===== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #6a0dad, #9b5de5);
+/* ===== Main Wrapper ===== */
+.register {
+  width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 20px;
-  overflow-x: hidden;
 }
 
-/* ===== Main Card ===== */
-body > div {
+.register-card {
   max-width: 450px;
   width: 100%;
   background: #ffffff;
@@ -28,14 +16,14 @@ body > div {
 }
 
 /* ===== Title ===== */
-h1 {
+.register-title {
   text-align: center;
   color: #6a0dad;
   font-size: 2.1em;
   margin-bottom: 6px;
 }
 
-p {
+.register-subtitle {
   text-align: center;
   color: #666;
   font-size: 14px;
@@ -43,12 +31,16 @@ p {
 }
 
 /* ===== Form ===== */
-form > div {
+.register-form {
+  width: 100%;
+}
+
+.form-group {
   margin-bottom: 18px;
 }
 
 /* ===== Labels ===== */
-label {
+.form-label {
   display: block;
   margin-bottom: 6px;
   font-size: 14px;
@@ -57,7 +49,7 @@ label {
 }
 
 /* ===== Inputs ===== */
-input {
+.form-input {
   width: 100%;
   padding: 12px 14px;
   border-radius: 8px;
@@ -66,26 +58,51 @@ input {
   transition: all 0.3s ease;
 }
 
-input::placeholder {
+.form-input::placeholder {
   color: #999;
 }
 
-input:focus {
+.form-input:focus {
   outline: none;
   border-color: #9b5de5;
   box-shadow: 0 0 0 3px rgba(155, 93, 229, 0.25);
 }
 
 /* ===== Error ===== */
-.error-msg {
+.form-error {
   display: block;
   margin-top: 4px;
   font-size: 12px;
   color: #e63946;
 }
 
+/* ===== Password Wrapper ===== */
+.password-wrapper {
+  position: relative;
+}
+
+.password-input {
+  padding: 12px 40px 12px 14px; /* space for icon */
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+  user-select: none;
+  color: #555;
+  transition: 0.2s;
+}
+
+.password-toggle:hover {
+  color: #000;
+}
+
 /* ===== Button ===== */
-button {
+.register-btn {
   width: 100%;
   padding: 14px;
   margin-top: 10px;
@@ -96,18 +113,33 @@ button {
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-button:hover {
+.register-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 25px rgba(106, 13, 173, 0.4);
 }
 
-button:active {
+.register-btn:active {
   transform: translateY(0);
+}
+
+/* ===== Footer ===== */
+.register-footer {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.register-footer a {
+  color: #6a0dad;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.register-footer a:hover {
+  text-decoration: underline;
 }
 
 /* ===== Animation ===== */
@@ -124,11 +156,11 @@ button:active {
 
 /* ===== Tablet ===== */
 @media (max-width: 768px) {
-  body > div {
+  .register-card {
     padding: 28px 22px;
   }
 
-  h1 {
+  .register-title {
     font-size: 1.9em;
   }
 }
@@ -139,25 +171,25 @@ button:active {
     padding: 12px;
   }
 
-  body > div {
+  .register-card {
     padding: 22px 18px;
     border-radius: 12px;
   }
 
-  h1 {
+  .register-title {
     font-size: 1.7em;
   }
 
-  p {
+  .register-subtitle {
     font-size: 13px;
   }
 
-  input {
+  .form-input {
     font-size: 13px;
     padding: 10px 12px;
   }
 
-  button {
+  .register-btn {
     font-size: 15px;
     padding: 12px;
   }

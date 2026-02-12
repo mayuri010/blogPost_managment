@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "./Register.css";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import {toast} from "react-toastify";
+
 function Register() {
   const [regData, setRegData] = useState({
     name: "",
@@ -32,11 +33,10 @@ function Register() {
     e.preventDefault();
     if (validate()) {
       localStorage.setItem("blog_rdata", JSON.stringify(regData));
-      // alert("done");
-      toast.success("Register Successfull");
+      toast.success("done");
       navigate("/login");
     } else {
-      alert("somthing went wrong");
+      toast.error("somthing went wrong");
     }
   };
 
@@ -73,59 +73,72 @@ function Register() {
     return Object.keys(newError).length === 0;
   };
 
-  return (
-    <div className="register-container">
-      <h1>Create Account</h1>
-      <p>Join Us And Start Our Journey</p>
+  return  (
+  <div className="register">
+    <div className="register-card">
+      <h1 className="register-title">Create Account</h1>
+      <p className="register-subtitle">Join Us And Start Our Journey</p>
 
-      <form action="" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Full Name</label>
+      <form className="register-form" onSubmit={handleSubmit}>
+
+        {/* Full Name */}
+        <div className="form-group">
+          <label htmlFor="name" className="form-label">Full Name</label>
           <input
             type="text"
             name="name"
             id="name"
-            placeholder="Enter Yoyr Full Name"
+            className="form-input"
+            placeholder="Enter Your Full Name"
             onChange={handleChange}
           />
-          {error.name && <span className="error-msg">{error.name}</span>}
+          {error.name && <span className="form-error">{error.name}</span>}
         </div>
-        <div>
-          <label htmlFor="email">Email Address</label>
+
+        {/* Email */}
+        <div className="form-group">
+          <label htmlFor="email" className="form-label">Email Address</label>
           <input
             type="email"
             name="email"
             id="email"
-            placeholder="Enter Yoyr Email Address"
+            className="form-input"
+            placeholder="Enter Your Email Address"
             onChange={handleChange}
           />
-          {error.email && <span className="error-msg">{error.email}</span>}
+          {error.email && <span className="form-error">{error.email}</span>}
         </div>
-        <div>
-          <label htmlFor="phone">Phone Number</label>
+
+        {/* Phone */}
+        <div className="form-group">
+          <label htmlFor="phone" className="form-label">Phone Number</label>
           <input
             type="tel"
             name="phone"
             id="phone"
-            placeholder="Enter Yoyr Phone Number"
+            className="form-input"
+            placeholder="Enter Your Phone Number"
             onChange={handleChange}
           />
-          {error.phone && <span className="error-msg">{error.phone}</span>}
+          {error.phone && <span className="form-error">{error.phone}</span>}
         </div>
-        <div className="password-field">
-          <label htmlFor="password">Password</label>
 
-          <div className="input-wrapper">
+        {/* Password */}
+        <div className="form-group">
+          <label htmlFor="password" className="form-label">Password</label>
+
+          <div className="password-wrapper">
             <input
               type={showPassword ? "text" : "password"}
               name="password"
               id="password"
+              className="form-input password-input"
               placeholder="******"
               onChange={handleChange}
             />
 
             <span
-              className="toggle-icon"
+              className="password-toggle"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? "🙈" : "👁️"}
@@ -133,24 +146,28 @@ function Register() {
           </div>
 
           {error.password && (
-            <span className="error-msg">{error.password}</span>
+            <span className="form-error">{error.password}</span>
           )}
         </div>
 
-        <div className="password-field">
-          <label htmlFor="password">Confirm Password</label>
+        {/* Confirm Password */}
+        <div className="form-group">
+          <label htmlFor="conPassword" className="form-label">
+            Confirm Password
+          </label>
 
-          <div className="input-wrapper">
+          <div className="password-wrapper">
             <input
               type={showPassword ? "text" : "password"}
               name="conPassword"
               id="conPassword"
+              className="form-input password-input"
               placeholder="******"
               onChange={handleChange}
             />
 
             <span
-              className="toggle-icon"
+              className="password-toggle"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? "🙈" : "👁️"}
@@ -158,16 +175,22 @@ function Register() {
           </div>
 
           {error.conPassword && (
-            <span className="error-msg">{error.conPassword}</span>
+            <span className="form-error">{error.conPassword}</span>
           )}
         </div>
-        <button type="submit">Register</button>
+
+        <button type="submit" className="register-btn">
+          Register
+        </button>
       </form>
-      <p>
-        Alredy have Account ??<Link to="/login">Login</Link>
+
+      <p className="register-footer">
+        Already have an Account? <Link to="/login">Login</Link>
       </p>
     </div>
-  );
+  </div>
+);
+
 }
 
 export default Register;

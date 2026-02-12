@@ -1,0 +1,20 @@
+{
+  "posts": [
+    {
+      "id": "4b4b",
+      "title": "Title 1",
+      "description": "loream ipsum is simply dummy text of the project",
+      "author": "Mayuri Kodavala",
+      "image": "https://avatars.mds.yandex.net/i?id=d82931e8d768e5ce0b1a05cc49d3dc04559d228d-9597954-images-thumbs&n=13",
+      "createAt": "2026-02-06T10:41:07.837Z"
+    },
+    {
+      "id": "4b4b",
+      "title": "Title 2",
+      "description": "loream ipsum is simply dummy text of the project",
+      "author": "Mayuri Kodavala",
+      "image": "https://avatars.mds.yandex.net/i?id=f24c99646b279c135f870bbfde373ddda80cfee0-10807918-images-thumbs&n=13",
+      "createAt": "2026-02-06T10:41:07.837Z"
+    }
+  ]
+}
