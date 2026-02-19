@@ -31,28 +31,25 @@ function CreatePost() {
 
   const [error, setError] = useState({});
 
- const { id } = useParams();
- const isEditMode = !!id;
+  const { id } = useParams();
+  const isEditMode = !!id;
   useEffect(() => {
-  if (isEditMode) {
-    fetch(`http://localhost:3000/posts/${id}`)
-      .then((res) => res.json())
-      .then((post) => {
-        setData({
-          title: post.title,
-          description: post.description,
-          auther: post.auther,
-          imageurl: post.imageurl,
-          imageType: post.imageurl?.startsWith("http")
-            ? "url"
-            : "file",
+    if (isEditMode) {
+      fetch(`http://localhost:3000/posts/${id}`)
+        .then((res) => res.json())
+        .then((post) => {
+          setData({
+            title: post.title,
+            description: post.description,
+            auther: post.auther,
+            imageurl: post.imageurl,
+            imageType: post.imageurl?.startsWith("http") ? "url" : "file",
+          });
+
+          setImagePreview(post.imageurl);
         });
-
-        setImagePreview(post.imageurl);
-      });
-  }
-}, [id]);
-
+    }
+  }, [id]);
 
   const handleChange = (e) => {
     setData({
@@ -84,15 +81,30 @@ function CreatePost() {
         },
         body: JSON.stringify({
           ...data,
-          createdAt: isEditMode
-            ? data.createdAt
-            : new Date().toISOString(),
+          createdAt: isEditMode ? data.createdAt : new Date().toISOString(),
         }),
       });
 
       navigate("/dashboard");
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleClearForm = () => {
+    setData({
+      title: "",
+      description: "",
+      auther: autherName?.name || "",
+      imageurl: "",
+      imageType: "url",
+    });
+
+    setImagePreview(null);
+    setError({});
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
     }
   };
 
@@ -284,7 +296,11 @@ function CreatePost() {
                 Publish Post
               </button>
 
-              <button type="button" className="cancel-btn">
+              <button
+                type="button"
+                className="cancel-btn"
+                onClick={handleClearForm}
+              >
                 Clear Form
               </button>
             </div>

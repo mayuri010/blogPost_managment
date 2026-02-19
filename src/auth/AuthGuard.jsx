@@ -9,7 +9,7 @@ export const AuthGuard = ({
   const data = JSON.parse(localStorage.getItem("blog_ldata"));
   const authorised = !!data;
   if (required && !authorised) {
-    <Navigate to={redirect} replace />;
+    return <Navigate to={redirect} replace />;
   }
   if (!required && authorised) {
     return <Navigate to="/dashboard" replace />;

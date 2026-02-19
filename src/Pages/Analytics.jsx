@@ -14,21 +14,78 @@ import {
 import Navbar from "../Component/Navbar";
 import "./Analytics.css";
 import { header } from "server/reply";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+
 
 export const Analystic = () => {
-  const chartData = [
-    { name: "Admin", posts: 5 },
-    { name: "User", posts: 3 },
-    { name: "Test", posts: 4 },
-    { name: "Demo", posts: 2 },
-  ];
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 5;
+
+  const navigate = useNavigate();
+
+const handleEdit = (id) => {
+  navigate(`/edit-post/${id}`);
+};
+
+const handleDelete = async (id) => {
+  await fetch(`http://localhost:3000/posts/${id}`, {
+    method: "DELETE",
+  });
+
+  setTasks(tasks.filter((task) => task.id !== id));
+};
+
+// pagination logic
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = tasks.slice(indexOfFirstPost, indexOfLastPost);
+  const totalPages = Math.ceil(tasks.length / postsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // prepare data for the bar chart:posts per author
+  const authorStats=tasks.reduce((acc,post)=>{
+    const author = post.auther || 'Unknown';
+    acc[author] = (acc[author] || 0)+1;
+    return acc;
+  },{});
+
+  const chartData = Object.keys(authorStats).map(author=>({
+    name:author,
+    posts:authorStats[author]
+  }));
+
+   
+  // example and diff. of ceil & floor
+  // Math.ceil(6.9)//7
+
+  
   const headers = [
     { label: "ID", key: "id" },
     { label: "Title", key: "Title" },
     { label: "Author", key: "Author" },
     { label: "Date", key: "cteateAt" },
+    { label : "Action", key:"action"},
   ];
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/posts");
+      const data = await response.json();
+      setTasks(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <div className="analytics-page">
       <Navbar />
@@ -43,19 +100,24 @@ export const Analystic = () => {
           <div className="chart-card">
             <h3>Posts per Author</h3>
             <div className="chart-card">
-            <h3>Posts per Author</h3>
-            <div className="chart-wrapper">
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Bar dataKey="posts" fill="#8884d8" name="Number of Posts" />
-                </BarChart>
-              </ResponsiveContainer>
+              <h3>Posts per Author</h3>
+              <div className="chart-wrapper">
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={chartData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar
+                      dataKey="posts"
+                      fill="#8884d8"
+                      name="Number of Posts"
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
             </div>
-          </div>
           </div>
 
           {/* pie chart */}
@@ -68,10 +130,13 @@ export const Analystic = () => {
                     data={chartData}
                     cx="50%"
                     cy="50%"
+                    labelLine={false}
+                    label={({ name, percent }) =>
+                      `${name} ${(percent * 100).toFixed(0)}%`
+                    }
                     outerRadius={80}
                     fill="#8884d8"
                     dataKey="posts"
-                    label
                   >
                     {chartData.map((entry, index) => (
                       <Cell
@@ -99,34 +164,60 @@ export const Analystic = () => {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>React Basics</td>
-                  <td>Admin</td>
-                  <td>16/02/2026</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Understanding Hooks</td>
-                  <td>User</td>
-                  <td>15/02/2026</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>JavaScript Es6</td>
-                  <td>Test</td>
-                  <td>14/02/2026</td>
-                </tr>
+                {currentPosts.map((task) => (
+                  <tr key={task.id}>
+                    <td>{task.id}</td>
+                    <td>{task.title}</td>
+                    <td>{task.auther}</td>
+
+                    <td>{new Date(task.createdAt || Date.now(),).toLocaleDateString()}</td>
+                    <td className="action-buttons">
+                      <button
+                        className="edit-btn"
+                        onClick={() => handleEdit(task.id)}
+                        title="Edit"
+                      >
+                        ✏️
+                      </button>
+                      <button
+                        className="delete-btn"
+                        onClick={() => handleDelete(task.id)}
+                        title="Delete"
+                      >
+                        🗑️
+                      </button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
           {/* static pagination */}
           <div className="pagination">
-            <button className="page-btn">Previous</button>
-            <button className="page-btn active">1</button>
-            <button className="page-btn">2</button>
-            <button className="page-btn">3</button>
-            <button className="page-btn">Next</button>
+            <button
+              onClick={() => paginate(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="page-btn"
+            >
+              Previous
+            </button>
+
+            {[...Array(totalPages).keys()].map((number) => (
+              <button
+                key={number + 1}
+                onClick={() => paginate(number + 1)}
+                className={`page-btn ${currentPage === number + 1 ? "active" : ""}`}
+              >
+                {number + 1}
+              </button>
+            ))}
+            <button
+              onClick={() => paginate(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="page-btn "
+            >
+              Next
+            </button>
           </div>
         </div>
       </main>

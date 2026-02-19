@@ -11,13 +11,14 @@ import Dashboard from "./Pages/DashBoard";
 import CreatePost from "./Pages/Createpost";
 import { PostDetails } from "./Pages/PostDetails";
 import { Analystic } from "./Pages/Analytics";
+import { Favorites } from "./Pages/Favorites";
 
 const DefultRouter = () => {
   const data = JSON.parse(localStorage.getItem("blog_rdata"));
   if (data) {
-  return  <Navigate to="/dashboard" replace />;
+    return <Navigate to="/dashboard" replace />;
   } else {
-   return <Navigate to="/login" replace />;
+    return <Navigate to="/login" replace />;
   }
 };
 function App() {
@@ -35,28 +36,28 @@ function App() {
       ),
     },
     {
-      path:"/create-post",
-      element:(
-        <AuthGuard required={true} >
+      path: "/create-post",
+      element: (
+        <AuthGuard required={true}>
           <CreatePost />
-          </AuthGuard>
+        </AuthGuard>
       ),
     },
     {
-      path:"/edit-post/:id",
-      element:(
-        <AuthGuard >
-        <CreatePost />
-       </AuthGuard>
+      path: "/edit-post/:id",
+      element: (
+        <AuthGuard required={true}>
+          <CreatePost />
+        </AuthGuard>
       ),
     },
     {
-      path:"/postDetail/:id",
-      element:(
+      path: "/postDetail/:id",
+      element: (
         <AuthGuard required={true}>
           <PostDetails />
         </AuthGuard>
-      )
+      ),
     },
     {
       path: "/login",
@@ -75,13 +76,21 @@ function App() {
       ),
     },
     {
-      path:"/analytics",
-      element:(
+      path: "/analytics",
+      element: (
         <AuthGuard required={true}>
-          <Analystic/>
+          <Analystic />
         </AuthGuard>
-      )
-    }
+      ),
+    },
+    {
+      path:"/favorites",
+       element:(
+        <AuthGuard required={true}>
+          <Favorites />
+        </AuthGuard>
+       ),
+    },
   ]);
 
   return (

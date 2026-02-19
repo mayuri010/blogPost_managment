@@ -1,11 +1,30 @@
 import React from "react";
-import { FaBlog, FaHome, FaPlusSquare, FaSignOutAlt } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import {
+  FaBlog,
+  FaHome,
+  FaMoon,
+  FaPlusSquare,
+  FaSignOutAlt,
+  FaSun,
+} from "react-icons/fa";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import { MdAnalytics } from "react-icons/md";
+import { FaStar } from "react-icons/fa";
+import { useTheme } from "../Context/ThemeContext";
 
 export default function Navbar() {
+  const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
+
   const data = JSON.parse(localStorage.getItem("blog_rdata"));
+
+  const handleLogout = () => {
+    localStorage.removeItem("");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -24,17 +43,29 @@ export default function Navbar() {
             Create Post
           </NavLink>
 
-           <NavLink to="/analytics" className="nav-item">
+          <NavLink to="/analytics" className="nav-item">
             <MdAnalytics className="nav-icon" />
             Analystic
           </NavLink>
 
+          <NavLink to="/favorites" className="nav-item">
+            <FaStar  className="nav-icon" />
+            Favorites
+          </NavLink>
+          
 
         </div>
         <div className="navbar-actions">
-          <span className="user-name">Hi,{data.name}</span>
+          <span className="user-name">Hi, {data?.name || "User"}</span>
 
-          <button className="logout-btn">
+          <button
+            className="theme-toggle-btn"
+            onClick={toggleTheme}
+            arial-label="Toggle theme"
+          >
+            {theme === "light" ? <FaMoon /> : <FaSun />}
+          </button>
+          <button onClick={handleLogout} className="logout-btn">
             <FaSignOutAlt />
             Logout
           </button>

@@ -2,7 +2,7 @@ import { FaArrowLeft, FaCalendarAlt, FaClock } from "react-icons/fa";
 import Navbar from "../Component/Navbar";
 import "./PostDetails.css";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const PostDetails = () => {
   const [tasks, setTasks] = useState({
@@ -13,6 +13,7 @@ export const PostDetails = () => {
     createdAt: "",
   });
   const {id} = useParams();
+  const Navigate=useNavigate();
 
   useEffect(() => {
     fetch(`http://localhost:3000/posts/${id}`)
@@ -25,7 +26,7 @@ export const PostDetails = () => {
       <Navbar />
 
       <main className="post-details-container">
-        <button className="back-btn">
+        <button className="back-btn" onClick={()=>Navigate("/")}>
           <FaArrowLeft />
           Back to Feed
         </button>

@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaStar } from "react-icons/fa";
 import { MdDelete, MdEdit } from "react-icons/md";
 import "./Dashboard.css";
 import Navbar from "../Component/Navbar";
 import { useNavigate } from "react-router-dom";
+
 const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
 
   const navigate = useNavigate();
+  const Favorites=useState(); 
 
   const fetchData = async () => {
     try {
@@ -35,13 +37,14 @@ const Dashboard = () => {
     }
   };
 
-  const handleEdit=(id)=>{
-    navigate(`/edit-post/${id}`)
-  }
+  const handleEdit = (id) => {
+    navigate(`/edit-post/${id}`);
+  };
 
-  const handleReadMore=(id)=>{
-    navigate(`/postDetail/${id}`)
-  }
+  const handleReadMore = (id) => {
+    navigate(`/postDetail/${id}`);
+  };
+
   return (
     <div className="dashboard-page">
       <Navbar />
@@ -98,9 +101,19 @@ const Dashboard = () => {
                     className="post-card-image"
                   />
 
+                  <button
+                    className={`favorite-btn ${Favorites.includes(tasks.id) ? "active" : ""}`}
+                  >
+                    <FaStar size={22} color="#ffffff" />
+                  </button>
+
                   <div className="post-actions">
                     <button className="action-btn edit-btn" title="Edit Post">
-                      <MdEdit size={22} color="#ffffff"  onClick={() => handleEdit(task.id)}/>
+                      <MdEdit
+                        size={22}
+                        color="#ffffff"
+                        onClick={() => handleEdit(task.id)}
+                      />
                     </button>
 
                     <button
@@ -122,7 +135,12 @@ const Dashboard = () => {
                   <h3 className="post-card-title">{task.title}</h3>
                   <p className="post-card-description">{task.description}</p>
 
-                  <button className="read-more-btn" onClick={()=>handleReadMore(task.id)}>Read More</button>
+                  <button
+                    className="read-more-btn"
+                    onClick={() => handleReadMore(task.id)}
+                  >
+                    Read More
+                  </button>
                 </div>
               </div>
             ))}
