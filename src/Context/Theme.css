@@ -185,15 +185,15 @@
 
 
 /*favorites dark mode*/
-[data-theme='dark'].favorites-page-container{
+[data-theme='dark'] .favorites-page-container{
   background-color: #0f172a;
 }
-[data-theme='dark'].favorites-header{
+[data-theme='dark'] .favorites-header{
   border-color: #334155;
 }
-[data-theme='dark'].favorites-header h2,
-[data-theme='dark'].fav-title,
-[data-theme='dark'].fav-empty-state h3{
+[data-theme='dark'] .favorites-header h2,
+[data-theme='dark'] .fav-title,
+[data-theme='dark'] .fav-empty-state h3{
   color: #f8fafc;
 }
 [data-theme='dark'] .fav-meta,
@@ -219,7 +219,7 @@
   background: #334155;
   color: #f8fafc;
 }
-[data-theme='dark'].remove-fav-btn{
+[data-theme='dark'] .remove-fav-btn{
   background: rgba(229,62,62,0.1);
   color: red;
 }

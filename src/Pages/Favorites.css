@@ -227,7 +227,7 @@
     overflow: hidden;
 }
 
-.fav-empty-style{
+.fav-empty-state{
     text-align: center;
     padding: 6rem 2rem;
     background: white;
@@ -257,6 +257,7 @@
     color: #1a202c;
     margin-bottom: 1rem;
     font-weight: 800;
+   
 }
 
 .fav-empty-state p{
@@ -268,7 +269,7 @@
     margin-right: auto;
 }
 
-.browse-btn{
+.browser-btn{
     background: linear-gradient(135deg,#FF416C 0%, #FF4B2B 100%);
     color: white;
     border: none;

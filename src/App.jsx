@@ -11,7 +11,7 @@ import Dashboard from "./Pages/DashBoard";
 import CreatePost from "./Pages/Createpost";
 import { PostDetails } from "./Pages/PostDetails";
 import { Analystic } from "./Pages/Analytics";
-import { Favorites } from "./Pages/Favorites";
+import Favorites from "./Pages/Favorites";
 
 const DefultRouter = () => {
   const data = JSON.parse(localStorage.getItem("blog_rdata"));
